@@ -20,10 +20,14 @@ public:
 
 	Trapezoid();
 
+	~Trapezoid();
+
+	Trapezoid& operator=(const Trapezoid &t);
+
 	void render();
 private:
-	const float TRAPEZOID_BORDER_GAP = 5.0f;
-	const float TRAPEZOID_INNER_GAP = 15.0f;
+	const float TRAPEZOID_BORDER_GAP = 2.0f;
+	const float TRAPEZOID_INNER_GAP = 4.0f;
 };
 
 #endif

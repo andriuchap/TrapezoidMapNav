@@ -2,8 +2,9 @@
 #include <SDL_opengl.h>
 #include <stdio.h>
 #include <vector>
-#include "Segment.h";
+#include "Segment.h"
 #include "TrapezoidalMap.h"
+#include "SearchTree.h"
 
 const int POINT_HALF_SIZE = 3;
 
@@ -14,10 +15,11 @@ std::vector<SDL_Rect> rects;
 
 std::vector<SDL_Point> points;
 
-TrapezoidalMap map;
+TrapezoidalMap* map;
+SearchTree* tree;
 
-Point pt1;
-Point pt2;
+Point* pt1;
+Point* pt2;
 
 int click_count = 0;
 
@@ -35,6 +37,10 @@ void render();
 void drawMap();
 
 void drawButtons();
+
+void assignPooint();
+
+Point* pooint = nullptr;
 
 int main(int argc, char* argv[])
 {
@@ -57,6 +63,10 @@ int main(int argc, char* argv[])
 	context = SDL_GL_CreateContext(window);
 	SDL_GL_SetSwapInterval(1);
 
+	map = new TrapezoidalMap();
+
+	tree = new SearchTree(map);
+
 	while (running)
 	{
 		handleEvents();
@@ -68,6 +78,12 @@ int main(int argc, char* argv[])
 
 	SDL_DestroyWindow(window);
 	window = NULL;
+
+	delete map;
+	map = nullptr;
+
+	delete tree;
+	tree = nullptr;
 
 	return 0;
 }
@@ -110,11 +126,11 @@ void render()
 
 	drawButtons();*/
 
-	map.render();
+	map->render();
 
 	if (click_count == 1)
 	{
-		pt1.render();
+		pt1->render();
 	}
 
 	SDL_GL_SwapWindow(window);
@@ -136,15 +152,17 @@ void handleEvents()
 			if (click_count == 0)
 			{
 				click_count++;
-				pt1._x = (float)e.button.x;
-				pt1._y = 640.f - (float)e.button.y;
+				pt1 = new Point();
+				pt1->_x = (float)e.button.x;
+				pt1->_y = 640.f - (float)e.button.y;
 			}
 			else if (click_count != 0)
 			{
 				click_count = 0;
-				pt2._x = (float)e.button.x;
-				pt2._y = 640.f - (float)e.button.y;
-				map.add_segment(pt1, pt2);
+				pt2 = new Point();
+				pt2->_x = (float)e.button.x;
+				pt2->_y = 640.f - (float)e.button.y;
+				map->add_segment(pt1, pt2, tree);
 			}
 			//points.push_back({ e.button.x, e.button.y });
 		}
@@ -175,4 +193,10 @@ void drawButtons()
 	glVertex2i(0, 100);
 	glEnd();
 
+}
+
+void assignPooint()
+{
+	Point pt(1, 1);
+	pooint = &pt;
 }

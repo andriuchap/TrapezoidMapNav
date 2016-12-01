@@ -4,22 +4,26 @@
 
 #include <vector>
 #include "Trapezoid.h"
+#include "SearchTree.h"
 
 class TrapezoidalMap
 {
 private:
 
 	//std::vector<Point> points;
-	std::vector<Segment> segments;
-	std::vector<Trapezoid> trapezoids;
+	std::vector<Segment*> segments;
+	std::vector<Trapezoid*> trapezoids;
 
 public:
 
 	TrapezoidalMap();
+	~TrapezoidalMap();
 
-	void add_segment(Point pt1, Point pt2);
-	void add_segment(float x0, float y0, float x1, float y1);
+	void add_segment(Point* pt1, Point* pt2, SearchTree* tree);
 	void render();
+
+	Segment* get_segment(int i);
+	Trapezoid* get_trapezoid(int i);
 };
 
 #endif

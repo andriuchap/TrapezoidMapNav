@@ -125,6 +125,8 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Query.cpp" />
+    <ClCompile Include="SearchTree.cpp" />
     <ClCompile Include="Segment.cpp" />
     <ClCompile Include="Trapezoid.cpp" />
     <ClCompile Include="TrapezoidalMap.cpp" />

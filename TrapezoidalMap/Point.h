@@ -11,6 +11,8 @@ public:
 	Point(float x, float y) { _x = x; _y = y; }
 	Point() { _x = 0; _y = 0; }
 
+	~Point() { _x = 0; _y = 0; }
+
 	void render();
 
 	Point& operator=(const Point &p) { this->_x = p._x; this->_y = p._y; return *this; }
